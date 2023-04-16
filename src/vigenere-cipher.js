@@ -20,14 +20,66 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(mode = true){
+    this.mode = mode;
+}
+abs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+encrypt(str, key) {
+    if(typeof str !== 'string' || typeof key !== 'string') {
+      throw new Error('Incorrect arguments!')
+    }
+    let phrase = str.toUpperCase();
+    let keyStr = key.toUpperCase();
+    let res = '';
+
+    for (let i = 0, j = 0; i < phrase.length; i++) {
+        if(j > keyStr.length - 1) {
+            j = 0;
+        }
+        let numberCharKey ;
+        let numberCharPhrese =  this.abs.indexOf(phrase[i]);
+        let newChar;
+
+        if(numberCharPhrese !== -1) {
+            numberCharKey = this.abs.indexOf(keyStr[j++]);
+            newChar = numberCharPhrese + numberCharKey > 25 ? Math.abs(numberCharPhrese + numberCharKey - 26) : numberCharPhrese + numberCharKey;
+            res += this.abs[newChar];
+        } else {
+            res += phrase[i];
+        }
+    }
+    return this.mode ? res : res.split('').reverse().join('');
+}
+decrypt(str, key) {
+  if(typeof str !== 'string' || typeof key !== 'string') {
+    throw new Error('Incorrect arguments!')
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    let phrase = str.toUpperCase();
+    let keyStr = key.toUpperCase();
+    let res = '';
+
+    for (let i = 0, j = 0; i < phrase.length; i++) {
+        if(j > keyStr.length - 1) {
+            j = 0;
+        }
+        let numberCharKey ;
+        let numberCharPhrese =  this.abs.indexOf(phrase[i]);
+        let newChar;
+
+        if(numberCharPhrese !== -1) {
+            numberCharKey = this.abs.indexOf(keyStr[j++]);
+            if(numberCharPhrese === 0 && numberCharKey === 0){
+                res+=this.abs[0];
+            } else {
+                newChar = numberCharPhrese - numberCharKey + 26 < 25 ?  Math.abs(numberCharPhrese - numberCharKey + 26) : numberCharPhrese - numberCharKey;
+                res += this.abs[newChar];
+            }
+        } else {
+            res += phrase[i];
+        }
+    }
+    return this.mode ? res : res.split('').reverse().join('');
+}
 }
 
 module.exports = {
