@@ -33,7 +33,7 @@ encrypt(str, key) {
     let res = '';
 
     for (let i = 0, j = 0; i < phrase.length; i++) {
-        if(j > keyStr.length - 1) {
+        if(j === keyStr.length) {
             j = 0;
         }
         let numberCharKey ;
@@ -59,7 +59,7 @@ decrypt(str, key) {
     let res = '';
 
     for (let i = 0, j = 0; i < phrase.length; i++) {
-        if(j > keyStr.length - 1) {
+        if(j === keyStr.length) {
             j = 0;
         }
         let numberCharKey ;
@@ -71,7 +71,8 @@ decrypt(str, key) {
             if(numberCharPhrese === 0 && numberCharKey === 0){
                 res+=this.abs[0];
             } else {
-                newChar = numberCharPhrese - numberCharKey + 26 < 25 ?  Math.abs(numberCharPhrese - numberCharKey + 26) : numberCharPhrese - numberCharKey;
+              console.log(newChar);
+                newChar = numberCharPhrese - numberCharKey + 26 < 26 ?  Math.abs(numberCharPhrese - numberCharKey + 26) : numberCharPhrese - numberCharKey;
                 res += this.abs[newChar];
             }
         } else {
